@@ -28,7 +28,10 @@ class AlienInvasion:
 		#background image
 		self.background = pygame.image.load('images/background.png')
 		
+		
 	def run_game(self):
+		
+		
 		
 		while True:
 			
@@ -43,24 +46,37 @@ class AlienInvasion:
 					sys.exit()
 				
 				elif event.type == pygame.KEYDOWN:
-					
-					if event.key == pygame.K_RIGHT and self.ship.image_rect.right < self.ship.screen_rect.right:
+					#makes sure the ship does not disappear
+					if event.key == pygame.K_RIGHT:
 						
 						#moves the ship on the x axsis
-						self.ship.image_rect.x += 2.5
-						
-					if event.key == pygame.K_LEFT and self.ship.image_rect.right > self.ship.screen_rect.right:
+						self.ship.moving_right= True 
+					if event.key == pygame.K_LEFT:
 					
-						self.ship.image_rect.x -= 5.5
+						self.ship.moving_left = True
 						
 					if event.key == pygame.K_UP:
 						
-						self.ship.image_rect.y -= 2.5	
+						self.ship.image_rect.y -= 2	
+						
+				elif event.type == pygame.KEYUP:
 					
+					if event.key == pygame.K_RIGHT:
+						
+						self.ship.moving_right = False 
+						
+					if event.key == pygame.K_LEFT:
+						
+						self.ship.moving_left = False
+					 		
+					
+				
+				
+						
+			self.ship.update()	
 					
 			pygame.display.flip()
-	
-
+				
 
 
 ai = AlienInvasion()		
