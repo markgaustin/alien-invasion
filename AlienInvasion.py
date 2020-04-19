@@ -4,6 +4,8 @@ import sys
 
 from Ship import Ship
 
+from Bullets import Bullets
+
 class AlienInvasion:
 	
 	def __init__(self):
@@ -22,11 +24,16 @@ class AlienInvasion:
 		#ships object
 		self.ship = Ship(self)
 		
+		self.bullet = Bullets(self)
 		#game name
 		pygame.display.set_caption('my game')
 		
 		#background image
 		self.background = pygame.image.load('images/background.png')
+		
+		#load ship sound when moving
+		self.accelarate = pygame.mixer.Sound('music/accelarate.wav')
+		
 		
 		
 	def run_game(self):
@@ -41,25 +48,51 @@ class AlienInvasion:
 			
 			self.ship.blitme()
 			
+			self.bullet.drawBullet(self)
+			
 			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					sys.exit()
+			
+	
 				
+				if event.type == pygame.QUIT:
+					
+					sys.exit()
+					
+			
+					
 				elif event.type == pygame.KEYDOWN:
+					
+					#play sound when ship is moving
+					
+					self.accelarate.play()
+					
 					#makes sure the ship does not disappear
+					
 					if event.key == pygame.K_RIGHT:
 						
 						#moves the ship on the x axsis
+						
 						self.ship.moving_right= True 
-					if event.key == pygame.K_LEFT:
 					
+					if event.key == pygame.K_LEFT:
+						
 						self.ship.moving_left = True
 						
 					if event.key == pygame.K_UP:
 						
-						self.ship.image_rect.y -= 2	
+						self.ship.moving_up = True
+						
+					if event.key == pygame.K_q:
+						
+						self.bullet.shoot = True
+					
+	
 						
 				elif event.type == pygame.KEYUP:
+					
+					#stop sound when key up
+					
+					self.accelarate.stop()
 					
 					if event.key == pygame.K_RIGHT:
 						
@@ -68,10 +101,15 @@ class AlienInvasion:
 					if event.key == pygame.K_LEFT:
 						
 						self.ship.moving_left = False
-					 		
+					
+					if event.key == pygame.K_UP:
+						
+						self.ship.moving_up = False
+					
+					
 					
 				
-				
+			self.bullet.shootBullet()	
 						
 			self.ship.update()	
 					
