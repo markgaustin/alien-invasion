@@ -5,6 +5,8 @@ class Bullets:
 	def __init__(self, ai_game):
 		#bullet settings
 		
+		self.screen = ai_game.screen
+		
 		self.width = 3
 		
 		self.height = 15
@@ -17,9 +19,9 @@ class Bullets:
 		
 		self.shoot = False
 		
-	def drawBullet(self, fg):
+	def drawBullet(self):
 		
-		pygame.draw.rect(fg.screen,self.color,self.rect)	
+		pygame.draw.rect(self.screen,self.color,self.rect)	
 		
 	def shootBullet(self):
 		
