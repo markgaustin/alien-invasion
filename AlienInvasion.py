@@ -34,34 +34,16 @@ class AlienInvasion:
 		#load ship sound when moving
 		self.accelarate = pygame.mixer.Sound('music/accelarate.wav')
 		
-		
-		
-	def run_game(self):
-		
-		
-		
-		while True:
+	def _updateScreen(self):
 			
-			self.screen.fill((212, 215, 210))
-			
-			self.screen.blit(self.background, (0,0))
-			
-			self.ship.blitme()
-			
-			self.bullet.drawBullet(self)
-			
-			for event in pygame.event.get():
-			
-	
+			self.bullet.shootBullet()	
+								
+			self.ship.update()	
+							
+			pygame.display.flip()
 				
-				if event.type == pygame.QUIT:
-					
-					sys.exit()
-					
-			
-					
-				elif event.type == pygame.KEYDOWN:
-					
+	def _keyDownEvents(self,event):
+		
 					#play sound when ship is moving
 					
 					self.accelarate.play()
@@ -85,11 +67,8 @@ class AlienInvasion:
 					if event.key == pygame.K_q:
 						
 						self.bullet.shoot = True
-					
-	
-						
-				elif event.type == pygame.KEYUP:
-					
+							
+	def _keyUpEvents(self, event):
 					#stop sound when key up
 					
 					self.accelarate.stop()
@@ -106,14 +85,41 @@ class AlienInvasion:
 						
 						self.ship.moving_up = False
 					
-					
-					
+			
+	def run_game(self):
+		
+		
+		
+		while True:
+			
+			self.screen.fill((212, 215, 210))
+			
+			self.screen.blit(self.background, (0,0))
+			
+			self.ship.blitme()
+			
+			self.bullet.drawBullet()
 				
-			self.bullet.shootBullet()	
-						
-			self.ship.update()	
+			for event in pygame.event.get():
+			
+				if event.type == pygame.QUIT:
 					
-			pygame.display.flip()
+					sys.exit()
+					
+				elif event.type == pygame.KEYDOWN:
+					self._keyDownEvents(event)
+							
+				elif event.type == pygame.KEYUP:
+					self._keyUpEvents(event)
+			
+			self._updateScreen()
+			
+							
+						
+		
+	
+	
+	
 				
 
 
